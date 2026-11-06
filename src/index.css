@@ -1,0 +1,171 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-surface-2: #111111;
+  --color-surface-3: #181818;
+  --color-line: #1d1d1d;
+  --color-line-strong: #2b2b2b;
+  --color-fg: #ededed;
+  --color-muted: #8f8f8f;
+  --color-faint: #565656;
+
+  --color-ok: #45c46a;
+  --color-err: #f2555a;
+  --color-warn: #e8a33d;
+  --color-run: #ffffff;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100dvh;
+  /* едва заметный свет сверху и точечная сетка, уходящая в черноту */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgb(255 255 255 / 0.07), transparent 70%),
+    radial-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    22px 22px;
+  background-attachment: fixed;
+  -webkit-mask-image: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.85) 420px, #000 700px);
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: rgb(255 255 255 / 0.9);
+  color: #000;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2b2b2b transparent;
+}
+
+:focus-visible {
+  outline: 1.5px solid rgb(255 255 255 / 0.7);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- анимации ---- */
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.dot-pulse {
+  animation: pulse-ring 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+.blink {
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.toast-in {
+  animation: toast-in 0.18s ease-out;
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+.drawer-in {
+  animation: drawer-in 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.expand {
+  animation: expand 0.16s ease-out;
+}
+
+/* бегущий блик по строке выполняющегося рана */
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+.row-running {
+  background-image: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.035) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
